@@ -1,0 +1,57 @@
+<html>
+  <head>
+    <title>Simple loans Database</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script>$(document).ready(function(){$("table > tbody > tr").hide().slice(0, 50).show();})</script>
+  </head>
+  <body>
+    <div class="head">
+        <h1>A Simple bank loans Database using MongoDB</h1>
+        <h2>By Salim Huneidi</h2>
+    </div>
+    <div class="newspaper">
+        <form method="POST">
+            {{ cform.hidden_tag() }}
+            <fieldset>
+                <h3>Create Loan</h3>
+                {{cform.lender.label}}<br>
+                {{cform.lender}}<br>
+                {{cform.borrower.label}}<br>
+                {{cform.borrower}}<br>
+                {{cform.ir.label}}<br>
+                {{cform.ir}}<br>
+                {{cform.amount.label}}<br>
+                {{cform.amount}}<br>
+                {{cform.end.label}}<br>
+                {{cform.end}}<br><br>
+                {{ cform.create }}
+            </fieldset>
+        </form>
+        <form method="POST">
+          {{ uform.hidden_tag() }}
+          <fieldset>
+            <h3> Pay loan</h3>
+            {{uform.key.label}}<br>
+            {{uform.key}}<br>
+            {{uform.paid.label}}<br>
+            {{uform.paid}}<br><br>
+            {{uform.update}}
+          </fieldset>
+        </form>
+    </div>
+
+
+
+    <b>Loans List:</b><br><br>
+    {% for i in data %}
+        id = {{ i["id"]}} <br>
+        Lender = {{ i["lender"] }}<br>
+        Borrower = {{ i["borrower"] }} <br>
+        Amount = {{ i["amount"] }}<br>
+        Paid = {{ i["paid"] }}<br>
+        End = {{ i["end"] }}<br><br>
+    {% endfor %}
+
+
+  </body>
+</html>
