@@ -17,3 +17,9 @@ class UpdateLoan(FlaskForm):
     key = TextField('Loan ID')
     paid = TextField('Paid to date')
     update = SubmitField('Update')
+
+class UpdateLoan1(FlaskForm):
+    key = IntegerField('Loan ID')
+    borrower = TextField('Become the borrower')
+    lender = TextField('Become the lender')
+    update = SubmitField('Update')

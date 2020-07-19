@@ -40,8 +40,17 @@ def createLoan(form):
 def updateLoan(form):
     key = form.key.data
     paid = form.paid.data
-    print(key)
     db.loan.update_one({"id": int(key)}, {"$set": {"paid": paid}},)
+    return redirect('/')
+
+def updateLoan1(form):
+    key = form.key.data
+    borrower = form.borrower.data
+    lender = form.lender.data
+    db.loan.update_one(
+        {"id": int(key)}, 
+        {"$set": { "lender": lender, "borrower": borrower } }
+    )
     return redirect('/')
 
 
@@ -49,12 +58,15 @@ def updateLoan(form):
 def main():
     cform = CreateLoan(prefix='cform')
     uform = UpdateLoan(prefix='uform')
-
+    u1form = UpdateLoan1(prefix='u1form')
     if cform.validate_on_submit() and cform.create.data:
         return createLoan(cform)
 
     if uform.validate_on_submit() and uform.update.data:
         return updateLoan(uform)
+    
+    if u1form.validate_on_submit() and u1form.update.data:
+        return updateLoan1(u1form)
     
     docs = db.loan.find()
     data = []
@@ -64,7 +76,7 @@ def main():
 
 
 
-    return render_template('layout.html', cform=cform, data=data, uform=uform)
+    return render_template('layout.html', cform=cform, data=data, uform=uform, u1form=u1form)
 
 if __name__ == '__main__':
     #webapp.jinja_env.auto_reload = True

@@ -38,6 +38,19 @@
             {{uform.update}}
           </fieldset>
         </form>
+        <form method="POST">
+          {{ u1form.hidden_tag() }}
+          <fieldset>
+            <h3> borrow or lend a loan</h3>
+            {{u1form.key.label}}<br>
+            {{u1form.key}}<br>
+            {{u1form.borrower.label}}<br>
+            {{u1form.borrower}}<br>
+            {{u1form.lender.label}}<br>
+            {{u1form.lender}}<br><br>
+            {{u1form.update}}
+          </fieldset>
+        </form>
     </div>
 
 
@@ -45,8 +58,16 @@
     <b>Loans List:</b><br><br>
     {% for i in data %}
         id = {{ i["id"]}} <br>
-        Lender = {{ i["lender"] }}<br>
-        Borrower = {{ i["borrower"] }} <br>
+        {% if i['lender'] %}
+            Lender = {{ i["lender"] }}<br>
+        {% else %}
+          <p style="color: red; margin: 0rem;">Lend this loan</p>
+        {% endif %}
+        {% if i['borrower'] %}
+          Borrower = {{ i["borrower"] }} <br>
+        {% else %} 
+          <p style="color: red; margin: 0rem;"> borrow this loan</p>    
+        {% endif %}
         Amount = {{ i["amount"] }}<br>
         Paid = {{ i["paid"] }}<br>
         End = {{ i["end"] }}<br><br>
