@@ -1,4 +1,5 @@
 <html>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <head>
     <title>Simple loans Database</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
@@ -6,72 +7,111 @@
   </head>
   <body>
     <div class="head">
-        <h1>A Simple bank loans Database using MongoDB</h1>
-        <h2>By Salim Huneidi</h2>
+        <h1 class = "d-flex justify-content-center ">Simple bank loans peer-to-peer</h1>
     </div>
-    <div class="newspaper">
-        <form method="POST">
-            {{ cform.hidden_tag() }}
-            <fieldset>
-                <h3>Create Loan</h3>
-                {{cform.lender.label}}<br>
-                {{cform.lender}}<br>
-                {{cform.borrower.label}}<br>
-                {{cform.borrower}}<br>
-                {{cform.ir.label}}<br>
-                {{cform.ir}}<br>
-                {{cform.amount.label}}<br>
-                {{cform.amount}}<br>
-                {{cform.end.label}}<br>
-                {{cform.end}}<br><br>
-                {{ cform.create }}
-            </fieldset>
-        </form>
-        <form method="POST">
-          {{ uform.hidden_tag() }}
-          <fieldset>
-            <h3> Pay loan</h3>
-            {{uform.key.label}}<br>
-            {{uform.key}}<br>
-            {{uform.paid.label}}<br>
-            {{uform.paid}}<br><br>
-            {{uform.update}}
-          </fieldset>
-        </form>
-        <form method="POST">
-          {{ u1form.hidden_tag() }}
-          <fieldset>
-            <h3> borrow or lend a loan</h3>
-            {{u1form.key.label}}<br>
-            {{u1form.key}}<br>
-            {{u1form.borrower.label}}<br>
-            {{u1form.borrower}}<br>
-            {{u1form.lender.label}}<br>
-            {{u1form.lender}}<br><br>
-            {{u1form.update}}
-          </fieldset>
-        </form>
+    <div class="card m-5">
+        <div class="card-body ">
+            <form action="/create"  method="POST">
+              <div class="form-group">
+                <label for="lender">Lender</label>
+                <input type="text" name="lender" class="form-control" id="lender" aria-describedby="lender" placeholder="Lender Name">
+              </div>
+              <div class="form-group">
+                <label for="borrower">Borrower</label>
+                <input type="text" name='borrower' class="form-control" id="borrower" aria-describedby="borrower" placeholder="Borrower Name">
+              </div>
+              <div class="form-group">
+                <label for="ir">Interest Rate %</label>
+                <input type="text" name='ir'class="form-control" id="ir" aria-describedby="ir" placeholder="5%">
+              </div>
+              <div class="form-group">
+                <label for="amount">Amount</label>
+                <input type="number" name='amount' class="form-control" id="amount" aria-describedby="amount" placeholder="385">
+              </div>
+              <div class="form-group">
+                <label for="end">Loan Term in years</label>
+                <input type="number" name='end'class="form-control" id="end" aria-describedby="end" placeholder="5">
+              </div>
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
     </div>
 
 
 
-    <b>Loans List:</b><br><br>
-    {% for i in data %}
-        id = {{ i["id"]}} <br>
-        {% if i['lender'] %}
-            Lender = {{ i["lender"] }}<br>
-        {% else %}
-          <p style="color: red; margin: 0rem;">Lend this loan</p>
-        {% endif %}
-        {% if i['borrower'] %}
-          Borrower = {{ i["borrower"] }} <br>
-        {% else %} 
-          <p style="color: red; margin: 0rem;"> borrow this loan</p>    
-        {% endif %}
-        Amount = {{ i["amount"] }}<br>
-        Paid = {{ i["paid"] }}<br>
-        End = {{ i["end"] }}<br><br>
-    {% endfor %}
+    
+    <div class="row d-flex justify-content-center">
+      {% for i in data %}
+        <div class="card col-md-3 m-2" >
+          <div class="card-body">
+              {% if i['lender'] %}
+                  <label>lender</label>
+                  <input class="form-control" style="color: gray;" type="text" value=' {{ i["lender"] }}' readonly> 
+              {% else %}
+                <form action = '/edit/{{i["id"]}}' method="POST" style='margin: 0rem;'>
+                  <div class="row">
+                      <div class="col-md-9">
+                        <label> Lender</label>
+                        <input class="form-control" type="text" name="lender" id="lender" placeholder="Lender Name"> 
+                      </div>
+                        <div class="col-md-2 mt-4">
+                          <button class="btn btn-secondary mt-2" type="submit">Lend</button>
+                        </div>
+                    </div>
+                     <input type="hidden" id="borrower" name="borrower" value="">
+                </form>
+              {% endif %}
+              {% if i['borrower'] %}
+              <div class="mt-1">
+                <label> Borrower</label>
+                <input class="form-control" style="color: gray;" type="text" value=' {{ i["borrower"] }}' readonly>      
+              </div>
+              {% else %} 
+                <form action = '/edit/{{i["id"]}}' method="POST" style='margin: 0rem;'>
+                  <div class="row">
+                      <div class="col-md-9">
+                        <label> Borrower</label>
+                        <input class="form-control" type="text" name="borrower" id="borrower" placeholder="Borrower Name"> 
+                      </div>
+                        <div class="col-md-2 mt-4 ">
+                          <button class="btn btn-secondary mt-2" type="submit">Borrow</button>
+                        </div>
+                    </div>
+                     <input type="hidden" id="borrower" name="borrower" value="">
+                </form> 
+              {% endif %}
+              <div class="mt-1 mb-1">
+                <label> Amount</label>
+                <input class="form-control" style="color: gray;" type="text" value=' {{ i["amount"] }}' readonly>
+              </div>
+              {% if i['borrower'] and i['lender']  %}
+          
+              <form action="/pay/{{i['id']}}" method="POST" style='margin: 0rem;' class="mt-">
+                <div class="row">
+                    <div class="col-md-9 mt-1">
+                      <label>Pay part of loan</label>
+                      <input class="form-control" type="number" name="paid" id="paid" placeholder="80"> 
+                    </div>
+                      <div class="col-md-3 mt-3">
+                        <button class="btn btn-secondary mt-3" type="submit">Pay</button>
+                      </div>
+                  </div>
+              </form> 
+              
+                Paid to date <span class="badge badge-secondary mt-4">{{ i["paid"] }}</span> <br>
+          
+              {% endif %}
+              
+              Term left <span class="badge badge-secondary mt-4"> {{ i["end"] }} </span> years
+            <div class="row mt-4">
+              <div class="btn btn-danger">
+                <a style="color: black; text-decoration: none;" href="/delete/{{i['id']}}"> delete </a>
+              </div> 
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
 
 
   </body>
