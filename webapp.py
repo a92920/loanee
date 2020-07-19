@@ -5,7 +5,7 @@ from Crud_Classes import *
 webapp = Flask(__name__)
 webapp.config['Testing'] = True 
 webapp.testing = True
-webapp.config.update(dict(SECRET_KEY='yoursecretkey'), TESTING = True)
+webapp.config.update(dict(SECRET_KEY='PiSecrete'), TESTING = True)
 
 client = MongoClient('localhost:27017')
 db = client.BankeeDB
